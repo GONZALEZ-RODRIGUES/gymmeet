@@ -1,12 +1,14 @@
 const express = require('express');
 // const todoController = require("./todo/todo.controller");
 const cors = require("cors");
+const PORT = process.env.PORT || 5100;
 const app = express();
+const db = require("../db")
 
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 5100;
+app.use("/", express.static(__dirname + "/public"));
 
 // app.get("/", todoController.getTodos); //done
 // app.get("/:id", todoController.getTodos); //done
