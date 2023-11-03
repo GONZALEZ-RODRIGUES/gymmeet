@@ -11,8 +11,8 @@
     "migrate-latest": "knex migrate:latest",
     "migrate-down": "",
     "seed-data": "knex seed:run",
-    "start-both": "npm start & (cd ../client && npm run dev)",
-    "build-both": "npm install & (cd ../client && npm install)"
+    "start-both": "npm start && (cd ../client && npm run dev)",
+    "build-both": "npm install && (cd ../client && npm install)"
   },
   "author": "",
   "license": "ISC",
