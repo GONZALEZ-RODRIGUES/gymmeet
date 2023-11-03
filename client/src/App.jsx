@@ -1,15 +1,13 @@
 import { useState } from 'react'
-
-import './App.css'
+import BgVideo from './components/BgVideo'
 
 function App() {
 
   return (
     <>
-
-      <p className="read-the-docs">
-        HELLO WORKD
-      </p>
+      <div className='App'>
+        <BgVideo />
+      </div>
     </>
   )
 }
