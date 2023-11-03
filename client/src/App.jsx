@@ -1,12 +1,22 @@
 import { useState } from 'react'
-import BgVideo from './components/BgVideo'
+import HomePage from './components/HomePage'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
 
   return (
     <>
       <div className='App'>
-        <BgVideo />
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </Router>
       </div>
     </>
   )
