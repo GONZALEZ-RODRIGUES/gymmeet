@@ -28,5 +28,19 @@ module.exports = {
         let userDeleted = parseInt(req.params.id);
         let deleted = await userModel.delete(userDeleted);
         res.status(200).send(deleted);
-    }
+    },
+    async login(data) {
+        const user = await userModel.checkUser(data.email);
+        if(user[0] == undefined) return false;
+        const validUser = await crypter.check(
+          data.password,
+          user[0].hashed_password,
+          user[0].salt
+        );
+        if (validUser === true) {
+          return true;
+        } else {
+          return false;
+        }
+      },
 }

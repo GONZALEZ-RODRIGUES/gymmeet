@@ -46,5 +46,17 @@ module.exports = {
         .then(() => {
             return `User with id: ${id}, deleted.`
         })
-    }
+    }, 
+
+    checkUser(email) {
+        return knex
+        .select({
+            id: "id",
+            email: "email",
+            first_name: "first_name",
+            hashed_password: "hashed_password",
+            salt: "salt",
+        }).from(users)
+        .where({email: email})
+    },
 }
