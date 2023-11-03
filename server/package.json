@@ -12,7 +12,7 @@
     "migrate-down": "",
     "seed-data": "knex seed:run",
     "start-both": "npm run start && (cd ../client && npm run dev)",
-    "build-both": "npm install && (cd ../client && npm run build)"
+    "build-both": "npm install && (cd ../client && npm install)"
   },
   "author": "",
   "license": "ISC",
