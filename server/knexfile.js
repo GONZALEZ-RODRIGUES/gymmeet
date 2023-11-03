@@ -13,10 +13,10 @@ module.exports = {
       password: process.env.DB_PASSWORD,
     },
     migrations: {
-      directory: "./data/migrations",
+      directory: "./db/migrations",
     },
     seeds: {
-      directory: "./data/seeds",
+      directory: "./db/seeds",
     },
   },
   development: {
@@ -29,10 +29,10 @@ module.exports = {
       password: process.env.DB_PASSWORD,
     },
     migrations: {
-      directory: "./data/migrations",
+      directory: "./db/migrations",
     },
     seeds: {
-      directory: "./data/seeds",
+      directory: "./db/seeds",
     }
   }
 };
