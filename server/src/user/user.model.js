@@ -20,6 +20,8 @@ module.exports = {
             email: "email",
             last_name: "last_name",
             first_name: "first_name",
+            hashed_password: "hashed_password",
+            salt: "salt",
         }).from(users)
         .where({email: email})
         .first();
