@@ -32,10 +32,5 @@ module.exports = {
     seeds: {
         directory: "./db/seeds",
     }
-  }
-<<<<<<< HEAD
+  },
 };
-=======
-};
-
->>>>>>> auth
