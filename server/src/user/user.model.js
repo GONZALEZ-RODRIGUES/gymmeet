@@ -14,12 +14,12 @@ module.exports = {
         }).from(users);
     },
 
-    getByEmail(email) {
+    checkByEmail(email) {
         return knex.select({
             id: "id",
             email: "email",
             last_name: "last_name",
-            first_name: "firs_name",
+            first_name: "first_name",
         }).from(users)
         .where({email: email})
         .first();
@@ -59,13 +59,14 @@ module.exports = {
             return `User with id: ${id}, deleted.`
         })
     }, 
-
+    // check by email if user exist
     checkUser(email) {
         return knex
         .select({
             id: "id",
             email: "email",
             first_name: "first_name",
+            last_name: "last_name",
             hashed_password: "hashed_password",
             salt: "salt",
         }).from(users)

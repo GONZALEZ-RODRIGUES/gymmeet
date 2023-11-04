@@ -70,6 +70,7 @@ app.use(cors());
 // });
 
 app.get("/", usersController.getUsers); //done
+app.get("/email", usersController.checkByEmail); //check if user exist by email
 // app.get("/:id", todoController.getUsers); //done
 // app.post("/", todoController.create); //done returning msg with id
 // app.put("/:id", todoController.update); //done returning msg with id

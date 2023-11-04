@@ -7,6 +7,14 @@ module.exports = {
             console.log("alo apos o model: " + req)
             res.status(200).send(users);
     },
+
+    // if exists return true, otherwise false
+    async checkByEmail(req, res) {
+          const email = req.body.email
+          const result = await userModel.checkByEmail(email);
+          result ? res.status(200).send(true) : res.status(400).send(false);
+    },
+
     async create(req, res) {
         let user = req.body;
         userCreated = await userModel.create(user);
