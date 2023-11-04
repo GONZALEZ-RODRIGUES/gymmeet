@@ -41,7 +41,7 @@ module.exports = {
           data.password,
           user.hashed_password,
         );
-        console.log(validUser)
+        
         return validUser ? true : false;
         // if (validUser === true) {
         //   return true;

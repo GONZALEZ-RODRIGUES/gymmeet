@@ -18,7 +18,7 @@ function HomePage () {
         };
     
         const url = "http://localhost:5100/login";
-        console.log(userData)
+        console.log(userData);
         try {
             const response = await axios.post(url, userData);
             if (response.status === 200) {

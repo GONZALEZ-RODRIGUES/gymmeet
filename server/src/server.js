@@ -79,14 +79,8 @@ app.get("/", isAuthenticated, function (req, res) {
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
-})
-
-
-
-
-
-
-//serving static html for every path
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
-// });
+});
+// serving static html for every path
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+});

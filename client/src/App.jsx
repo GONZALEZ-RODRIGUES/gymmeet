@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import HomePage from './components/HomePage'
+import HomePage from './components/HomePage';
+import CreateAcc from './components/CreateAcc';
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-function App() {
+const App = () => {
 
   return (
     <>
@@ -15,6 +16,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/new" element={<CreateAcc />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
       </div>
