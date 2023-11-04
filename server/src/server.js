@@ -1,5 +1,5 @@
 const express = require('express');
-// const todoController = require("./todo/todo.controller");
+const usersController = require("./user/user.controller");
 const cors = require("cors");
 const PORT = process.env.PORT || 5100;
 const app = express();
@@ -11,7 +11,7 @@ const KnexSessionStore = require("connect-session-knex")(session);
 const escapeHtml = require("escape-html");
 app.use(express.json());
 app.use(cors());
-app.use("/", express.static("../client/dist"));
+// app.use("/", express.static("../client/dist"));
 
 // const store = new KnexSessionStore({
 //     knex,
@@ -69,8 +69,8 @@ app.use("/", express.static("../client/dist"));
 //   res.status(200).send("hello, " + escapeHtml(req.session.user));
 // });
 
-// app.get("/", todoController.getTodos); //done
-// app.get("/:id", todoController.getTodos); //done
+app.get("/", usersController.getUsers); //done
+// app.get("/:id", todoController.getUsers); //done
 // app.post("/", todoController.create); //done returning msg with id
 // app.put("/:id", todoController.update); //done returning msg with id
 // app.delete("/:id", todoController.delete); //done returning msg with id
@@ -85,6 +85,6 @@ app.listen(PORT, () => {
 
 
 //serving static html for every path
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
-});
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+// });

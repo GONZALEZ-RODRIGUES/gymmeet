@@ -5,12 +5,24 @@ const users = "users";
 module.exports = {
     users,
     getAll() {
+        console.log("alo no model")
         return knex
         .select({
             id: "id",
             email: "email",
             last_name: "last_name",
         }).from(users);
+    },
+
+    getByEmail(email) {
+        return knex.select({
+            id: "id",
+            email: "email",
+            last_name: "last_name",
+            first_name: "firs_name",
+        }).from(users)
+        .where({email: email})
+        .first();
     },
     
     getById(id) {
