@@ -1,4 +1,5 @@
 const userModel = require("./user.model");
+const crypter = require("../authentication");
 
 module.exports = {
     async getUsers(req, res) {
@@ -32,17 +33,20 @@ module.exports = {
         res.status(200).send(deleted);
     },
     async login(data) {
-        const user = await userModel.checkUser(data.email);
-        if(user[0] == undefined) return false;
+        const email = data.email
+        const user = await userModel.checkByEmail(email);
+        
+        if(!user) return false;
         const validUser = await crypter.check(
           data.password,
-          user[0].hashed_password,
-          user[0].salt
+          user.hashed_password,
         );
-        if (validUser === true) {
-          return true;
-        } else {
-          return false;
-        }
+        console.log(validUser)
+        return validUser ? true : false;
+        // if (validUser === true) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
       },
 }

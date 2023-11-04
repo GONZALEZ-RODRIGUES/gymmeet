@@ -17,8 +17,8 @@ function HomePage () {
             password: passwordInput.current.value,
         };
     
-        const url = "https://http://localhost:5100/login";
-        
+        const url = "http://localhost:5100/login";
+        console.log(userData)
         try {
             const response = await axios.post(url, userData);
             if (response.status === 200) {
