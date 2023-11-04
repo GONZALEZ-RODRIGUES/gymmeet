@@ -18,9 +18,32 @@ module.exports = {
 
     async create(req, res) {
         let user = req.body;
-        userCreated = await userModel.create(user);
+        console.log(user);
+
+        let checkUser = await userModel.checkByEmail(user.email);
+        console.log(checkUser)
+        if (checkUser) return false;
+
+        let hashedData = await crypter.hash(user.password);
+        let objUser = {
+          email: user.email,
+          hashed_password: hashedData.hashedPassword, //atention here
+          salt: hashedData.salt,                     // and here
+          first_name: user.first_name,
+          last_name: user.last_name,
+          age: user.age,
+          weight: user.weight,
+          height: user.height,
+          gender: user.gender,
+          goals: user.goals,
+          description: user.description,
+          gym_attended: user.gym_attended,
+        };
+
+        userCreated = await userModel.create(objUser);
         res.status(200).send(userCreated);
     },
+
     async update(req, res) {
         let userUpdated = req.body;
         let id = parseInt(req.params.id)

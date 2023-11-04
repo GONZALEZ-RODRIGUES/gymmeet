@@ -12,6 +12,7 @@ function HomePage () {
 
     const handleRequest = async (e) => {
         e.preventDefault();
+        
         const userData = {
             email: emailInput.current.value,
             password: passwordInput.current.value,

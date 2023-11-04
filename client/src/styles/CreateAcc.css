@@ -1,0 +1,122 @@
+.bgContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background-color: rgba(43, 52, 153, .5);
+    background-size: cover;
+    background-position: right;
+}
+
+h1.title {
+    font-size: 70px;
+    font-weight: 700;
+    color: #FFD099;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+  
+h2.text {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF9209;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+
+.container-register {
+    font-size: 20px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    color: white;
+    background-color: rgba(43, 52, 153, .7);
+    z-index: 2;
+    border-radius: 25px;
+    gap: 10px;
+    padding: 20px;
+}
+
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+  
+.button-login {
+  border: 1px solid #FFD099;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #FFD099;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  line-height: 29px;
+  padding: 0 10px 0 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  background-color: #2B3499;
+  margin-top: 4px;
+}
+
+.button-login:hover {
+  background-color: #212a92;
+}
+
+.button-login:focus {
+  border-color: #FFD099;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
+}
+
+.input-login {
+    border-radius: 7px;
+    height: 25px;
+    transition: all 0.3s;
+    outline: none;
+    background-color: lightgray; 
+    border: 1px solid #ccc;
+
+}
+
+.input-login:focus {
+    transform: scale(1.02);
+    transform: translateY(-2px);
+    background-color: white; 
+}
+
+.input-login::placeholder {
+    padding-left: 5px;
+}
+
+
+.link-newacc {
+    text-decoration: none;
+    transition: transform 0.3s;
+    color: #FFF;
+    font-size: 18px;
+}
+
+.link-newacc:hover {
+    transform: translateY(-4px);
+}
