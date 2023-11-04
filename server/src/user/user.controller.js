@@ -2,17 +2,19 @@ const userModel = require("./user.model");
 
 module.exports = {
     async getUsers(req, res) {
-        console.log("alo" + req.params.id)
-        if(req.params.id) {
-            const id = parseInt(req.params.id);
-            //console.log(req.params, "req do back")
-            const user = await userModel.getById(id);
-            res.status(200).send(user);
-        } else {
+        console.log("alo: " + req)
             const users = await userModel.getAll();
+            console.log("alo apos o model: " + req)
             res.status(200).send(users);
-        }
     },
+
+    // if exists return true, otherwise false
+    async checkByEmail(req, res) {
+          const email = req.body.email
+          const result = await userModel.checkByEmail(email);
+          result ? res.status(200).send(true) : res.status(400).send(false);
+    },
+
     async create(req, res) {
         let user = req.body;
         userCreated = await userModel.create(user);

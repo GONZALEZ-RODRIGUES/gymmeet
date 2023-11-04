@@ -11,7 +11,7 @@ const KnexSessionStore = require("connect-session-knex")(session);
 const escapeHtml = require("escape-html");
 app.use(express.json());
 app.use(cors());
-app.use("/", express.static("../client/dist"));
+// app.use("/", express.static("../client/dist"));
 
 // const store = new KnexSessionStore({
 //     knex,
@@ -35,7 +35,11 @@ app.use("/", express.static("../client/dist"));
 //     else next("route");
 // }
 
+<<<<<<< HEAD
 // //login user
+=======
+// // //login user
+>>>>>>> auth
 // app.post(
 //   "/login",
 //   express.urlencoded({ extended: false }),
@@ -61,7 +65,11 @@ app.use("/", express.static("../client/dist"));
 //       res.sendStatus(400);
 //     }
 //   }
+<<<<<<< HEAD
 // );
+=======
+// // );
+>>>>>>> auth
 
 // app.get("/", isAuthenticated, function (req, res) {
 //   // this is only called when there is an authentication user due to isAuthenticated
@@ -70,7 +78,12 @@ app.use("/", express.static("../client/dist"));
 // });
 
 app.get("/", usersController.getUsers); //done
+<<<<<<< HEAD
 app.get("/:id", usersController.getUsers); //done
+=======
+app.get("/email", usersController.checkByEmail); //check if user exist by email
+// app.get("/:id", todoController.getUsers); //done
+>>>>>>> auth
 // app.post("/", todoController.create); //done returning msg with id
 // app.put("/:id", todoController.update); //done returning msg with id
 // app.delete("/:id", todoController.delete); //done returning msg with id
