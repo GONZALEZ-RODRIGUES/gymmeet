@@ -1,10 +1,9 @@
 const userModel = require("./user.model");
+const crypter = require("../authentication");
 
 module.exports = {
     async getUsers(req, res) {
-        console.log("alo: " + req)
             const users = await userModel.getAll();
-            console.log("alo apos o model: " + req)
             res.status(200).send(users);
     },
 
@@ -17,9 +16,30 @@ module.exports = {
 
     async create(req, res) {
         let user = req.body;
-        userCreated = await userModel.create(user);
+        let checkUser = await userModel.checkByEmail(user.email);
+
+        if (checkUser) return res.status(200).send(false);
+
+        let hashedData = await crypter.hash(user.password);
+        let objUser = {
+          email: user.email,
+          hashed_password: hashedData.hashedPassword, //atention here
+          salt: hashedData.salt,                     // and here
+          first_name: user.first_name,
+          last_name: user.last_name,
+          age: user.age,
+          weight: user.weight,
+          height: user.height,
+          gender: user.gender,
+          goals: user.goals,
+          description: user.description,
+          gym_attended: user.gym_attended,
+        };
+
+        userCreated = await userModel.create(objUser);
         res.status(200).send(userCreated);
     },
+
     async update(req, res) {
         let userUpdated = req.body;
         let id = parseInt(req.params.id)
@@ -32,17 +52,20 @@ module.exports = {
         res.status(200).send(deleted);
     },
     async login(data) {
-        const user = await userModel.checkUser(data.email);
-        if(user[0] == undefined) return false;
+        const email = data.email
+        const user = await userModel.checkByEmail(email);
+        
+        if(!user) return false;
         const validUser = await crypter.check(
           data.password,
-          user[0].hashed_password,
-          user[0].salt
+          user.hashed_password,
         );
-        if (validUser === true) {
-          return true;
-        } else {
-          return false;
-        }
+        
+        return validUser ? true : false;
+        // if (validUser === true) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
       },
 }

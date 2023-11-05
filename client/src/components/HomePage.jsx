@@ -12,19 +12,20 @@ function HomePage () {
 
     const handleRequest = async (e) => {
         e.preventDefault();
+        
         const userData = {
             email: emailInput.current.value,
             password: passwordInput.current.value,
         };
-    
-        const url = "https://http://localhost:5100/login";
         
+        const url = "http://localhost:5100/login";
+
         try {
             const response = await axios.post(url, userData);
-            if (response.status === 200) {
+            if (response.status === 200 && response.data !== false) {
                 navigate("/home");
             } else {
-                console.log(response.status);
+                window.alert("Invalid email or password");
             }
         } catch (error) {
             console.error("Error: " + error);
