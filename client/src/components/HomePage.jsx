@@ -17,15 +17,15 @@ function HomePage () {
             email: emailInput.current.value,
             password: passwordInput.current.value,
         };
-    
+        
         const url = "http://localhost:5100/login";
-        console.log(userData);
+
         try {
             const response = await axios.post(url, userData);
-            if (response.status === 200) {
+            if (response.status === 200 && response.data !== false) {
                 navigate("/home");
             } else {
-                console.log(response.status);
+                window.alert("Invalid email or password");
             }
         } catch (error) {
             console.error("Error: " + error);

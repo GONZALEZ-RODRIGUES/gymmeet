@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/CreateAcc.css";
 import image from "../assets/bg-r-1.jpg";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateAcc = () => {
   const emailInput = useRef("");
@@ -38,13 +39,14 @@ const CreateAcc = () => {
     };
 
     const url = "http://localhost:5100/create";
-    console.log(userData);
+
     try {
       const response = await axios.post(url, userData);
-      if (response.status === 200) {
+
+      if (response.status === 200 && response.data !== false) {
         navigate("/home");
       } else {
-        console.log(response.status);
+        window.alert("Email already exist");
       }
     } catch (error) {
       console.error("Error: " + error);
@@ -168,6 +170,7 @@ const CreateAcc = () => {
             ></textarea>
             <button className="button-login">Register</button>
           </form>
+
         </div>
       </div>
     </>
