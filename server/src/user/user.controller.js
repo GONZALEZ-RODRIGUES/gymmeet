@@ -3,9 +3,7 @@ const crypter = require("../authentication");
 
 module.exports = {
     async getUsers(req, res) {
-        console.log("alo: " + req)
             const users = await userModel.getAll();
-            console.log("alo apos o model: " + req)
             res.status(200).send(users);
     },
 
@@ -18,11 +16,9 @@ module.exports = {
 
     async create(req, res) {
         let user = req.body;
-        console.log(user);
-
         let checkUser = await userModel.checkByEmail(user.email);
-        console.log(checkUser)
-        if (checkUser) return false;
+
+        if (checkUser) return res.status(200).send(false);
 
         let hashedData = await crypter.hash(user.password);
         let objUser = {

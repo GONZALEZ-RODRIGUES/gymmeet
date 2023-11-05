@@ -42,7 +42,7 @@ app.post(
   async function (req, res) {
     // login logic to validate req.body.user and req.body.pass
     const loggedIn = await usersController.login(req.body);
-    console.log(loggedIn)
+    
     if (loggedIn === true) {
       // regenerate the session, which is good practice to help
       // guard against forms of session fixation
@@ -59,7 +59,7 @@ app.post(
         });
       });
     } else {
-      res.sendStatus(400);
+      res.status(200).send(false);
     }
   }
 );

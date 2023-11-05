@@ -5,7 +5,6 @@ const users = "users";
 module.exports = {
     users,
     getAll() {
-        console.log("alo no model")
         return knex
         .select({
             id: "id",
