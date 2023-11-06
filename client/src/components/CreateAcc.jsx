@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/CreateAcc.css";
 import image from "../assets/bg-r-1.jpg";
-import { toast, ToastContainer } from "react-toastify";
+import Alert from '@mui/material/Alert';
+
 
 const CreateAcc = () => {
   const emailInput = useRef("");
@@ -20,6 +21,8 @@ const CreateAcc = () => {
   const gymAttInput = useRef("");
 
   const navigate = useNavigate();
+
+  const [alertOpen, setAlertOpen] = useState(false);
 
   const handleRequest = async (e) => {
     e.preventDefault();
@@ -46,7 +49,8 @@ const CreateAcc = () => {
       if (response.status === 200 && response.data !== false) {
         navigate("/home");
       } else {
-        window.alert("Email already exist");
+        // window.alert("Email already exist");
+        setAlertOpen(true);
       }
     } catch (error) {
       console.error("Error: " + error);
@@ -72,6 +76,11 @@ const CreateAcc = () => {
               placeholder="Email"
               ref={emailInput}
             />
+            {alertOpen && (
+              <Alert severity="error" onClose={() => setAlertOpen(false)}>
+                Email already exists
+              </Alert>
+            )}
             <label className="label-register" htmlFor="password">
               Password:
             </label>
