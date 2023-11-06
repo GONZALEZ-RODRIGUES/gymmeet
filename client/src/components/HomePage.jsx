@@ -1,12 +1,14 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import video from "../assets/background-video-1.mp4";
 import axios from "axios";
 import "../styles/HomePage.css";
+import Alert from '@mui/material/Alert';
 
 function HomePage () {
     const emailInput = useRef("");
     const passwordInput = useRef("");
+    const [alertOpen, setAlertOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ function HomePage () {
             if (response.status === 200 && response.data !== false) {
                 navigate("/home");
             } else {
-                window.alert("Invalid email or password");
+                setAlertOpen(true);
             }
         } catch (error) {
             console.error("Error: " + error);
@@ -63,6 +65,11 @@ function HomePage () {
                         <button className="button-login">Login</button>
                     </form>
                     <div className="newacc">
+                    {alertOpen && (
+                        <Alert severity="error" onClose={() => setAlertOpen(false)}>
+                            Invalid email or password
+                        </Alert>
+                    )}
                     <a className="link-newacc" href="/new">
                         Create An Account
                     </a>
