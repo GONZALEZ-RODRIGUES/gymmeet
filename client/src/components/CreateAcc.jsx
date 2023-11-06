@@ -45,9 +45,20 @@ const CreateAcc = () => {
 
     try {
       const response = await axios.post(url, userData);
-
-      if (response.status === 200 && response.data !== false) {
-        navigate("/home");
+      console.log("response", response);
+      if (response.status === 200) {
+        console.log(userData)
+        navigate("/home", { state: {      
+          email: emailInput.current.value,
+          first_name: firstNameInput.current.value,
+          last_name: lastNameInput.current.value,
+          gender: genderInput.current.value,
+          weight: weightInput.current.value,
+          height: heightInput.current.value,
+          age: ageInput.current.value,
+          goals: goalsInput.current.value,
+          description: descriptionInput.current.value,
+          gym_attended: gymAttInput.current.value,} });
       } else {
         // window.alert("Email already exist");
         setAlertOpen(true);

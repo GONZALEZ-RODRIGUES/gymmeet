@@ -20,7 +20,13 @@ module.exports = {
             last_name: "last_name",
             first_name: "first_name",
             hashed_password: "hashed_password",
-            salt: "salt",
+            age: "age",
+            weight: "weight",
+            height: "height",
+            gender: "gender",
+            goals: "goals",
+            description: "description",
+            gym_attended: "gym_attended",
         }).from(users)
         .where({email: email})
         .first();

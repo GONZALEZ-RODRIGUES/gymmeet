@@ -60,12 +60,18 @@ module.exports = {
           data.password,
           user.hashed_password,
         );
-        
-        return validUser ? true : false;
-        // if (validUser === true) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        // object to fill home user
+        return validUser ? {
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          age: user.age,
+          weight: user.weight,
+          height: user.height,
+          gender: user.gender,
+          goals: user.goals,
+          description: user.description,
+          gym_attended: user.gym_attended,
+        } : false;
       },
 }

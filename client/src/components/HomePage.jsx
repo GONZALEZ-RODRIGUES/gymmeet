@@ -24,13 +24,11 @@ function HomePage () {
 
         try {
             const response = await axios.post(url, userData);
-            if (response.status === 200 && response.data !== false) {
-                navigate("/home");
-            } else {
-                setAlertOpen(true);
+            if (response.status === 200) {
+                navigate("/home", { state: response.data});
             }
         } catch (error) {
-            console.error("Error: " + error);
+            setAlertOpen(true);
         }
     }
 
