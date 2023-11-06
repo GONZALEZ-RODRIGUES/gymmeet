@@ -41,9 +41,9 @@ app.post(
   express.urlencoded({ extended: false }),
   async function (req, res) {
     // login logic to validate req.body.user and req.body.pass
-    const loggedIn = await usersController.login(req.body);
-    
-    if (loggedIn === true) {
+    const user = await usersController.login(req.body);
+
+    if (user) {
       // regenerate the session, which is good practice to help
       // guard against forms of session fixation
       req.session.regenerate(function (err) {
@@ -55,11 +55,11 @@ app.post(
         // load does not happen before session is saved
         req.session.save(function (err) {
           if (err) return next(err);
-          res.sendStatus(200);
+          res.status(200).send(user);
         });
       });
     } else {
-      res.status(200).send(false);
+      res.status(400).send(false);
     }
   }
 );

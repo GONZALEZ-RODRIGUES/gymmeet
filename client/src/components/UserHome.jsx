@@ -6,6 +6,23 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
+import { useLocation } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import "../styles/UserHome.css";
+import { useState } from 'react';
+
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
 
 function getRandomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -31,7 +48,8 @@ function fakeFetch(date, { signal }) {
   });
 }
 
-const initialValue = dayjs('2022-04-17');
+const initialValue = dayjs();
+
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -43,7 +61,7 @@ function ServerDay(props) {
     <Badge
       key={props.day.toString()}
       overlap="circular"
-      badgeContent={isSelected ? '🌚' : undefined}
+      badgeContent={isSelected ? '🟢' : undefined}
     >
       <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
     </Badge>
@@ -51,6 +69,10 @@ function ServerDay(props) {
 }
 
 export default function DateCalendarServerRequest() {
+    const [value, setValue] = useState(dayjs());
+    const location = useLocation();
+    const userData = location.state;
+    console.log(userData);
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([1, 2, 15]);
@@ -92,22 +114,48 @@ export default function DateCalendarServerRequest() {
     fetchHighlightedDays(date);
   };
   console.log(highlightedDays)
+  console.log(value);
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar
-        defaultValue={initialValue}
-        loading={isLoading}
-        onMonthChange={handleMonthChange}
-        renderLoading={() => <DayCalendarSkeleton />}
-        slots={{
-          day: ServerDay,
-        }}
-        slotProps={{
-          day: {
-            highlightedDays,
-          },
-        }}
-      />
-    </LocalizationProvider>
+
+    <div className='container-userhome'>
+    <div className="container-title-userhome">
+        <h1 className="title-userhome">GymMeet</h1>
+     </div>
+    <Box className="user-card" sx={{ flexGrow: 1 }}>
+              <Grid container spacing={2}>
+                  <Grid  item xs={3}>
+                      <Item >Hello, {userData.first_name}</Item>
+                  </Grid>
+                  <Grid  item xs={5}>
+                      <Item >
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateCalendar
+              defaultValue={initialValue}
+              value={value}
+              onChange={(newValue) => setValue(newValue)}
+              loading={isLoading}
+              onMonthChange={handleMonthChange}
+              renderLoading={() => <DayCalendarSkeleton />}
+              
+              slots={{
+                  day: ServerDay,
+              }}
+              slotProps={{
+                  day: {
+                      highlightedDays,
+                  },
+              }} />
+      </LocalizationProvider>
+
+                      </Item>
+                  </Grid>
+                  <Grid  item xs={4}>
+                      <Item >Meets for you, {userData.first_name}</Item>
+                  </Grid>
+                  
+              </Grid>
+          </Box>
+
+    </div>
   );
 }
