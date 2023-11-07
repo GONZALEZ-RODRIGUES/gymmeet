@@ -1,5 +1,6 @@
 const express = require('express');
 const usersController = require("./user/user.controller");
+const meetController = require("./meet/meet.controller");
 const cors = require("cors");
 const PORT = process.env.PORT || 5100;
 const app = express();
@@ -72,8 +73,10 @@ app.get("/", isAuthenticated, function (req, res) {
 
 // app.get("/", usersController.getUsers); //done
 // app.get("/email", usersController.checkByEmail); //check if user exist by email
-// app.get("/:id", todoController.getUsers); //done
+
 app.post("/create", usersController.create); //done returning msg with id
+app.get("/meetuser/:id", meetController.getUserMeets); // usar para pegar os dados de meet daquele user
+app.post("/createmeet", meetController.create); //done returning msg with id
 // app.put("/:id", todoController.update); //done returning msg with id
 // app.delete("/:id", todoController.delete); //done returning msg with id
 

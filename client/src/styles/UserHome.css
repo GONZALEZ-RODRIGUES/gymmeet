@@ -19,3 +19,16 @@
     background-color: #EADBC8;
     height: 100vh;
 }
+
+.form-meet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.meets {
+    background-color: #0F2C59;
+}

@@ -9,6 +9,7 @@ module.exports = {
 
     // if exists return true, otherwise false
     async checkByEmail(req, res) {
+        console.log("aaaaaa")
           const email = req.body.email
           const result = await userModel.checkByEmail(email);
           result ? res.status(200).send(true) : res.status(400).send(false);
@@ -22,6 +23,7 @@ module.exports = {
 
         let hashedData = await crypter.hash(user.password);
         let objUser = {
+          id: user.id,
           email: user.email,
           hashed_password: hashedData.hashedPassword, //atention here
           salt: hashedData.salt,                     // and here
@@ -62,6 +64,7 @@ module.exports = {
         );
         // object to fill home user
         return validUser ? {
+          user: user.id,
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name,
