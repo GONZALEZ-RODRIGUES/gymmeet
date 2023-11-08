@@ -25,6 +25,7 @@ function HomePage () {
         try {
             const response = await axios.post(url, userData);
             if (response.status === 200) {
+                console.log(response.data)
                 navigate("/home", { state: response.data});
             }
         } catch (error) {
