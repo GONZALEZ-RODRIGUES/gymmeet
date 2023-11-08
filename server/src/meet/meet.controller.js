@@ -1,23 +1,28 @@
 const meetModel = require("./meet.model");
+const participantsModel = require("../participants/participants.model");
 
 module.exports = {
 
     async create(req, res) {
         let meet = req.body;
-        meetCreated = await meetModel.create(meet);
-        res.status(200).send(meetCreated);
+        try {
+          const meetCreated = await meetModel.create(meet);
+          const meetParticipants = await participantsModel.create(meetCreated)
+          console.log(meetParticipants)
+          res.status(200).send(meetCreated);
+        } 
+        catch {
+          res.status(500).send("Server Problem creating meet and seeding participants");
+        }
     },
     //meets by user Id (he created)
     async getUserMeets(req, res) {
-        console.log("ok")
         if (req.params.id) {
           //by id
           try {
             const id = parseInt(req.params.id);
             const meets = await meetModel.getUserMeets(id);
             if (meets) {
-              // id found
-              console.log(meets)
               res.status(200).send(meets);
             } else {
               // not found

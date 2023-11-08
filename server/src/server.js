@@ -71,14 +71,9 @@ app.get("/", isAuthenticated, function (req, res) {
   res.status(200).send("hello, " + escapeHtml(req.session.user));
 });
 
-// app.get("/", usersController.getUsers); //done
-// app.get("/email", usersController.checkByEmail); //check if user exist by email
-
 app.post("/create", usersController.create); //done returning msg with id
 app.get("/meetuser/:id", meetController.getUserMeets); // usar para pegar os dados de meet daquele user
 app.post("/createmeet", meetController.create); //done returning msg with id
-// app.put("/:id", todoController.update); //done returning msg with id
-// app.delete("/:id", todoController.delete); //done returning msg with id
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

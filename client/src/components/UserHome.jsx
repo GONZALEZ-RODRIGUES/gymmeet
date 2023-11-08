@@ -1,4 +1,3 @@
-import * as React from 'react';
 import dayjs from 'dayjs';
 import Badge from '@mui/material/Badge';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -7,8 +6,6 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { useLocation } from "react-router-dom";
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import "../styles/UserHome.css";
 import { useState , useRef, useEffect } from 'react';
 import axios from 'axios';
@@ -17,18 +14,6 @@ import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#EADBC8',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    fontFamily: 'Poppins',
-    fontWeight: 400,
-    fontSize: 17,
-  }));
 
 const initialValue = dayjs();
 
@@ -58,10 +43,11 @@ export default function DateCalendarServerRequest() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMeet, setHasMeet] = useState(false);
   const [daysUserMeet, setDaysUserMeet] = useState([])
-  // let daysUserMeet = [];
+  const [meets, setMeets] = useState([])
   const localInput = useRef("");
   const descriptionInput = useRef("");
   const timeInput = useRef("");
+  const [meetHilighted, setMeetHighlighted] = useState([]);
 
   const getMeets = async () => {
 
@@ -71,6 +57,17 @@ export default function DateCalendarServerRequest() {
         const response = await axios.get(url);
         if (response.status === 200) {
           const correctDay = response.data.map (m => dayjs(m.meet_date).utc().tz('Asia/Tokyo'))
+          const newData = response.data.map((m) => {
+            return {
+              meet_date: dayjs(m.meet_date).utc().tz('Asia/Tokyo'),
+              meet_id: m.meet_id,
+              meet_description: m.meet_description,
+              meet_local: m.meet_local,
+              user_id: m.user_id,
+              meet_time: m.meet_time,
+            }
+          })
+          setMeets(newData)
           const onlyDays = correctDay.map(days => days.date())
           setDaysUserMeet(onlyDays);
         } else {
@@ -81,15 +78,20 @@ export default function DateCalendarServerRequest() {
     }
   
   }
+
+
   useEffect(() => {
     const hasMeet = daysUserMeet.filter((dayHas) => dayHas === eventDate.$D);
+    const meetInfo = meets.filter((m) => m.meet_date.$D === eventDate.$D)
     if(hasMeet.length === 0) {
-      console.log("mudouu");
       setHasMeet(false);
     } else {
-      setHasMeet(true)
+      setHasMeet(true);
+      setMeetHighlighted(meetInfo[0]);
+      console.log(meetHilighted)
+
     }
-  }, [daysUserMeet, eventDate]);
+  }, [daysUserMeet, eventDate, meetHilighted, meets]);
 
   const handleMeet = () => {
 
@@ -103,12 +105,12 @@ export default function DateCalendarServerRequest() {
       user_id: userData.user,
       meet_description: descriptionInput.current.value,
       meet_local: localInput.current.value,
-      meet_date: eventDate.format(),
+      meet_date: eventDate.format("YYYY/MM/DD"),
       meet_time: `${timeInput.current.value}:00:00`,
     };
   
     const url = "http://localhost:5100/createmeet";
-  
+    console.log(meetData.meet_date)
     try {
       const response = await axios.post(url, meetData);
       if (response.status === 200) {
@@ -131,6 +133,7 @@ export default function DateCalendarServerRequest() {
 
   useEffect(() => {
     getMeets();
+    setIsLoading(false);
     return () => requestAbortController.current?.abort();
   }, []);
 
@@ -143,8 +146,11 @@ export default function DateCalendarServerRequest() {
     setDaysUserMeet([]);
     fetchHighlightedDays();
   };
-console.log(eventDate.$D)
-console.log(hasMeet)
+// console.log(eventDate.$D)
+// console.log(hasMeet)
+// console.log(daysUserMeet)
+// console.log(meets)
+
   return (
 
     <div className='container-userhome'>
@@ -190,6 +196,12 @@ console.log(hasMeet)
             <>
             <div className="meet-card">
               <h2 className='meet-card-title'>Your GymMeet for {eventDate.format("MM/DD")}</h2>
+              <div className='meet-card-info-in'>
+                <p>Description:  {meetHilighted.meet_description}</p>
+                <p>Local:  {meetHilighted.meet_local}</p>
+                <p>Time:  {meetHilighted.meet_time.substring(0, 5)}</p>
+                <p>Who's Attending?</p>
+              </div>
             </div>
           </>
           </div>
