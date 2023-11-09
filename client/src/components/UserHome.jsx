@@ -50,7 +50,6 @@ export default function DateCalendarServerRequest() {
   const [meetHilighted, setMeetHighlighted] = useState([]);
 
   const getMeets = async () => {
-
     const userId = userData.user;
     const url = `http://localhost:5100/meetuser/${userId}`;
     try {
@@ -79,6 +78,24 @@ export default function DateCalendarServerRequest() {
   
   }
 
+  useEffect(() => {
+    getParticipants();
+  }, [meetHilighted]);
+
+  const getParticipants = async () => {
+    const meetId = meetHilighted.meet_id;
+    const url = `http://localhost:5100/meetparticipans/${meetId}`;
+    console.log("entrou")
+    try {
+      const response = await axios.get(url);
+      if(response.status === 200) {
+        console.log(response.data);
+      }
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
     const hasMeet = daysUserMeet.filter((dayHas) => dayHas === eventDate.$D);
@@ -93,11 +110,6 @@ export default function DateCalendarServerRequest() {
     }
   }, [daysUserMeet, eventDate, meetHilighted, meets]);
 
-  const handleMeet = () => {
-
-
-  }
-
   const handleRequest = async (e) => {
     e.preventDefault();
   
@@ -110,7 +122,6 @@ export default function DateCalendarServerRequest() {
     };
   
     const url = "http://localhost:5100/createmeet";
-    console.log(meetData.meet_date)
     try {
       const response = await axios.post(url, meetData);
       if (response.status === 200) {
@@ -174,7 +185,6 @@ export default function DateCalendarServerRequest() {
                 value={eventDate}
                 onChange={(newEventDate) => {
                   setEventDate(newEventDate);
-                  handleMeet();
                 }}
                 loading={isLoading}
                 onMonthChange={handleMonthChange}
