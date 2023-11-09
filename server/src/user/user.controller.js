@@ -9,7 +9,6 @@ module.exports = {
 
     // if exists return true, otherwise false
     async checkByEmail(req, res) {
-        console.log("aaaaaa")
           const email = req.body.email
           const result = await userModel.checkByEmail(email);
           result ? res.status(200).send(true) : res.status(400).send(false);
