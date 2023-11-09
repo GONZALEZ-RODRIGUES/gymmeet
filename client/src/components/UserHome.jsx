@@ -12,6 +12,7 @@ import axios from 'axios';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -48,13 +49,16 @@ export default function DateCalendarServerRequest() {
   const descriptionInput = useRef("");
   const timeInput = useRef("");
   const [meetHilighted, setMeetHighlighted] = useState([]);
+  const [participants, setParticipants] = useState([]);
+  const [suggestionMeets, setSuggestionMeets] = useState([]);
 
-  const getMeets = async () => {
+  const getMeets = async (newEventDate) => {
     const userId = userData.user;
     const url = `http://localhost:5100/meetuser/${userId}`;
     try {
         const response = await axios.get(url);
         if (response.status === 200) {
+          
           const correctDay = response.data.map (m => dayjs(m.meet_date).utc().tz('Asia/Tokyo'))
           const newData = response.data.map((m) => {
             return {
@@ -66,8 +70,11 @@ export default function DateCalendarServerRequest() {
               meet_time: m.meet_time,
             }
           })
-          setMeets(newData)
-          const onlyDays = correctDay.map(days => days.date())
+          setMeets(newData);
+          const correctMonth = newEventDate.format('MM');
+          const onlyDays = correctDay
+            .filter((day) => day.format('MM') === correctMonth)
+            .map((days) => days.date());
           setDaysUserMeet(onlyDays);
         } else {
           console.log("deu ruim");
@@ -77,6 +84,23 @@ export default function DateCalendarServerRequest() {
     }
   
   }
+  //proximos 30 dias
+  const getSuggestionMeets = async () => {
+    
+    const url = `http://localhost:5100/suggestionmeets/${userData.user}`
+    
+    try {
+      const response = await axios.get(url);
+      if(response.status === 200) {
+        // console.log(response.data)
+        setSuggestionMeets(response.data);
+        
+      }
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
     getParticipants();
@@ -84,12 +108,12 @@ export default function DateCalendarServerRequest() {
 
   const getParticipants = async () => {
     const meetId = meetHilighted.meet_id;
-    const url = `http://localhost:5100/meetparticipans/${meetId}`;
-    console.log("entrou")
+    if(meetId === undefined) return;
+    const url = `http://localhost:5100/meetparticipants/${meetId}`;
     try {
       const response = await axios.get(url);
       if(response.status === 200) {
-        console.log(response.data);
+        setParticipants(response.data)
       }
     }
     catch (err) {
@@ -105,8 +129,6 @@ export default function DateCalendarServerRequest() {
     } else {
       setHasMeet(true);
       setMeetHighlighted(meetInfo[0]);
-      console.log(meetHilighted)
-
     }
   }, [daysUserMeet, eventDate, meetHilighted, meets]);
 
@@ -125,7 +147,7 @@ export default function DateCalendarServerRequest() {
     try {
       const response = await axios.post(url, meetData);
       if (response.status === 200) {
-        getMeets();
+        getMeets(eventDate);
        setHasMeet(true);
       } else {
         // setAlertOpen(true);
@@ -137,30 +159,37 @@ export default function DateCalendarServerRequest() {
 
   const fetchHighlightedDays = async () => {
     const controller = new AbortController();
-    getMeets();
+    getMeets(eventDate);
     setIsLoading(false);
     requestAbortController.current = controller;
   };
 
   useEffect(() => {
-    getMeets();
+    getMeets(eventDate);
+    getSuggestionMeets();
     setIsLoading(false);
     return () => requestAbortController.current?.abort();
   }, []);
 
-  const handleMonthChange = () => {
+  const handleMonthChange = (newEventDate) => {
     if (requestAbortController.current) {
       requestAbortController.current.abort();
     }
-
+    setEventDate(newEventDate.startOf('month'));
     setIsLoading(true);
     setDaysUserMeet([]);
     fetchHighlightedDays();
+    getMeets(newEventDate)
   };
-// console.log(eventDate.$D)
-// console.log(hasMeet)
-// console.log(daysUserMeet)
-// console.log(meets)
+
+  // const handleJoinMeet = (meet_id) => {
+  //   const objJoin = { 
+  //     meet_id: meet_id,
+  //     meet_user: meet_id 
+  //   };
+
+  //   }
+
 
   return (
 
@@ -173,10 +202,22 @@ export default function DateCalendarServerRequest() {
           <h2 className='meet-card' >Hello, {userData.first_name}</h2>
         </div>
         <div className='container-calendar-meets'>
-          <div className="meets-info">
-             <div className='meets-cards' >Meets for you, {userData.first_name}</div>
-             <div className='meets-cards' >Meets for you, {userData.first_name}</div>
-             <div className='meets-cards' >Meets for you, {userData.first_name}</div>
+        <div className="meets-info">
+          <div className='meets-cards'>Suggested Meets for you, {userData.first_name}</div>
+          {suggestionMeets.slice(0, 3).map((meet, index) => (
+              <div className='suggestion-cards' key={index}>
+                <div>
+                  <p>Date: {dayjs(meet.meet_date).format("MM/DD")}</p>
+                  <p>Created by: {meet.creator_first_name} {meet.creator_last_name}</p>
+                  <p>Description: {meet.meet_description}</p>
+                  <p>Local: {meet.meet_local}</p>
+                  <p>Time: {meet.meet_time}</p>
+                </div>
+                <button className="button-login"
+                // onClick={() => handleJoinMeet(meet.meet_id)}
+                >Join!</button>
+              </div>
+          ))}
           </div>
           <div className="date-calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -209,8 +250,19 @@ export default function DateCalendarServerRequest() {
               <div className='meet-card-info-in'>
                 <p>Description:  {meetHilighted.meet_description}</p>
                 <p>Local:  {meetHilighted.meet_local}</p>
-                <p>Time:  {meetHilighted.meet_time.substring(0, 5)}</p>
-                <p>Who's Attending?</p>
+                <p>Time:  {meetHilighted.meet_time}</p>
+                <table>
+                  <thead>
+                    <tr><th>Who's is going?</th></tr>
+                  </thead>
+                  <tbody>
+                    {participants.map((participant, i) => (
+                      <tr key={i} >{participant.last_name} {participant.first_name}</tr>
+                    ))}
+                    
+                  </tbody>
+                </table>
+
               </div>
             </div>
           </>

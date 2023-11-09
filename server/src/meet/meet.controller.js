@@ -1,5 +1,6 @@
 const meetModel = require("./meet.model");
 const participantsModel = require("../participants/participants.model");
+const dayjs = require('dayjs')
 
 module.exports = {
 
@@ -8,8 +9,7 @@ module.exports = {
         try {
           const meetCreated = await meetModel.create(meet);
           const meetParticipants = await participantsModel.create(meetCreated)
-          console.log(meetParticipants)
-          console.log(meetCreated)
+
           res.status(200).send(meetCreated);
         } 
         catch {
@@ -18,11 +18,12 @@ module.exports = {
     },
     //meets by user Id (he created)
     async getUserMeets(req, res) {
-        if (req.params.id) {
-          //by id
+
           try {
             const id = parseInt(req.params.id);
             const meets = await meetModel.getUserMeets(id);
+            const participants = await participantsModel.getParticipants(id);
+
             if (meets) {
               res.status(200).send(meets);
             } else {
@@ -33,24 +34,20 @@ module.exports = {
             // server side error
             res.status(500).send("Server problem.");
           }
-        } else {
-          // by user_name and pw
-          try {
-            const user = await userModel.checkUser(req.body.user_name);
-            const validUser = await crypter.check(
-              req.body.password,
-              user[0].hashed_password,
-              user[0].salt
-            );
-            if (validUser) {
-              res.status(200).send(user);
-            } else {
-              res.status(404).send("Invalid user or password");
-            }
-          } catch (err) {
-            res.status(500).send("Server problem. user name and pw");
+      },
+
+      async getSuggestionMeets(req, res) {
+        //id user
+        
+          const id = parseInt(req.params.id);
+          const sMeets = await meetModel.getSuggestionMeets(id);
+
+          if(sMeets) {
+            res.status(200).send(sMeets);
+          } else {
+            res.status(404).send("No meets to suggest");
           }
-        }
+
       },
 
 }
