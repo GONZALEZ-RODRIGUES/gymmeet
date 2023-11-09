@@ -22,7 +22,7 @@ module.exports = {
 
         let hashedData = await crypter.hash(user.password);
         let objUser = {
-          id: user.id,
+
           email: user.email,
           hashed_password: hashedData.hashedPassword, //atention here
           salt: hashedData.salt,                     // and here
@@ -38,6 +38,7 @@ module.exports = {
         };
 
         userCreated = await userModel.create(objUser);
+        console.log(userCreated)
         res.status(200).send(userCreated);
     },
 

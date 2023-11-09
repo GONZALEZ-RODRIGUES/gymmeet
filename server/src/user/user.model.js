@@ -44,9 +44,12 @@ module.exports = {
 
 
     create(user) {
-        return knex(users).insert([user]).then(() => {
-            return `User with id ${user.id}, created.`
-        });
+        return knex(users)
+            .insert([user])
+            .returning('*')  // Use returning para obter os dados inseridos
+            .then((createdUser) => {
+                return createdUser[0];  // Retorna o primeiro (e único) usuário criado
+            });
     },
 
     update(id, user) {
