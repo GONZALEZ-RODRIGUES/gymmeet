@@ -48,9 +48,14 @@ module.exports = {
             .insert([user])
             .returning('*')  
             .then((createdUser) => {
+<<<<<<< HEAD
                 return createdUser[0]; 
+=======
+                return createdUser[0];  
+>>>>>>> 7411c21158be4448fc7e4bc67331c87a6954ebb2
             });
     },
+
 
     update(id, user) {
         return knex(users)
