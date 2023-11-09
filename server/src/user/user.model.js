@@ -45,13 +45,13 @@ module.exports = {
 
     create(user) {
         return knex(users)
-          .insert([user])
-          .returning("id")
-          .then((ids) => {
-            const createdUserId = ids[0];
-            return `User with id ${createdUserId} created.`;
-          });
-      },
+            .insert([user])
+            .returning('*')  
+            .then((createdUser) => {
+                return createdUser[0];  
+            });
+    },
+
 
     update(id, user) {
         return knex(users)

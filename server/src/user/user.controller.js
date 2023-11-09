@@ -38,6 +38,7 @@ module.exports = {
         };
 
         userCreated = await userModel.create(objUser);
+        console.log(userCreated)
         res.status(200).send(userCreated);
     },
 

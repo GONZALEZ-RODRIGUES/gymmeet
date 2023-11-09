@@ -41,14 +41,15 @@ const CreateAcc = () => {
       gym_attended: gymAttInput.current.value,
     };
 
-    const url = "https://gymmeet.onrender.com/create";
+    const url = "http://localhost:5100/create";
 
     try {
       const response = await axios.post(url, userData);
       console.log("response", response);
       if (response.status === 200) {
         console.log(userData)
-        navigate("/home", { state: {      
+        navigate("/home", { state: {   
+          user: response.data.id,
           email: emailInput.current.value,
           first_name: firstNameInput.current.value,
           last_name: lastNameInput.current.value,
