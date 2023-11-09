@@ -14,7 +14,7 @@ const escapeHtml = require("escape-html");
 const participantsModel = require('./participants/participants.model');
 app.use(express.json());
 app.use(cors());
-app.use("/", express.static("../client/dist"));
+app.use("/", express.static("../../client/dist"));
 
 const store = new KnexSessionStore({
     knex,

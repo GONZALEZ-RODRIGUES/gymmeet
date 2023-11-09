@@ -54,7 +54,7 @@ export default function DateCalendarServerRequest() {
 
   const getMeets = async (newEventDate) => {
     const userId = userData.user;
-    const url = `http://localhost:5100/meetuser/${userId}`;
+    const url = `https://gymmeet.onrender.com/meetuser/${userId}`;
     try {
         const response = await axios.get(url);
         if (response.status === 200) {
@@ -87,7 +87,7 @@ export default function DateCalendarServerRequest() {
   //proximos 30 dias
   const getSuggestionMeets = async () => {
     
-    const url = `http://localhost:5100/suggestionmeets/${userData.user}`
+    const url = `https://gymmeet.onrender.com/suggestionmeets/${userData.user}`
     
     try {
       const response = await axios.get(url);
@@ -109,7 +109,7 @@ export default function DateCalendarServerRequest() {
   const getParticipants = async () => {
     const meetId = meetHilighted.meet_id;
     if(meetId === undefined) return;
-    const url = `http://localhost:5100/meetparticipants/${meetId}`;
+    const url = `https://gymmeet.onrender.com/meetparticipants/${meetId}`;
     try {
       const response = await axios.get(url);
       if(response.status === 200) {
@@ -143,7 +143,7 @@ export default function DateCalendarServerRequest() {
       meet_time: `${timeInput.current.value}:00:00`,
     };
   
-    const url = "http://localhost:5100/createmeet";
+    const url = "https://gymmeet.onrender.com/createmeet";
     try {
       const response = await axios.post(url, meetData);
       if (response.status === 200) {
@@ -188,7 +188,7 @@ export default function DateCalendarServerRequest() {
       user_id: userData.user, 
     };
     console.log(joinData);
-    const url = "http://localhost:5100/joinmeet";
+    const url = "https://gymmeet.onrender.com/joinmeet";
     try {
       const response = await axios.post(url, joinData);
       if (response.status === 200) {
