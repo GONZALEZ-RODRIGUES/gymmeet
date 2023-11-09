@@ -9,6 +9,7 @@ module.exports = {
           const meetCreated = await meetModel.create(meet);
           const meetParticipants = await participantsModel.create(meetCreated)
           console.log(meetParticipants)
+          console.log(meetCreated)
           res.status(200).send(meetCreated);
         } 
         catch {

@@ -1,6 +1,7 @@
 const express = require('express');
 const usersController = require("./user/user.controller");
 const meetController = require("./meet/meet.controller");
+const participantsController = require("./participants/participants.controller");
 const cors = require("cors");
 const PORT = process.env.PORT || 5100;
 const app = express();
@@ -10,6 +11,7 @@ const session = require("express-session");
 const KnexSessionStore = require("connect-session-knex")(session);
 // const db = require("../db")
 const escapeHtml = require("escape-html");
+const participantsModel = require('./participants/participants.model');
 app.use(express.json());
 app.use(cors());
 app.use("/", express.static("../client/dist"));
@@ -74,6 +76,7 @@ app.get("/", isAuthenticated, function (req, res) {
 app.post("/create", usersController.create); //done returning msg with id
 app.get("/meetuser/:id", meetController.getUserMeets); // usar para pegar os dados de meet daquele user
 app.post("/createmeet", meetController.create); //done returning msg with id
+app.get("/meetparticipants/:id", participantsController.getParticipants);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

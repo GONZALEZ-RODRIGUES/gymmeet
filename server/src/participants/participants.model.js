@@ -6,7 +6,6 @@ module.exports = {
     meet_participants,
 
     create(meet) {
-        console.log(meet[0].meet_id)
         return knex(meet_participants)
             .returning("*")
             .insert({
@@ -14,9 +13,19 @@ module.exports = {
                 user_id: meet[0].user_id
             })
     },
-    //by userId
-    getUserMeets(id) {
-        return knex.select("*").from(meets)
-        .where({user_id: id})
+    
+    getParticipants(id) {
+        console.log(id)
+        return knex.select('meet_participants.participant_id', 'users.first_name', 'users.last_name', 'meet_participants.meet_id')
+        .from(meet_participants)
+        .join('meets', 'meet_participants.meet_id', 'meets.meet_id')
+        .join('users', 'meet_participants.user_id', 'users.id')
+        .where('meet_participants.meet_id', id)
+        .then((result) => {
+            return result
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
 }
