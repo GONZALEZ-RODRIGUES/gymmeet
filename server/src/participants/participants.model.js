@@ -13,6 +13,11 @@ module.exports = {
                 user_id: meet[0].user_id
             })
     },
+    joinMeet(meet) {
+        return knex(meet_participants)
+        .returning("*")
+        .insert([meet])
+    },
     
     getParticipants(id) {
         
