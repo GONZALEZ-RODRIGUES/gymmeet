@@ -48,7 +48,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-"GymMeet is your fitness meetup app, designed to connect gym enthusiasts. Create and join meets, where you can share, motivate, and collaborate to achieve your wellness goals together. Turn your workouts into social experiences and reach new levels of fitness with GymMeet."
+GymMeet is your fitness meetup app, designed to connect gym enthusiasts. Create and join meets, where you can share, motivate, and collaborate to achieve your wellness goals together. Turn your workouts into social experiences and reach new levels of fitness with GymMeet.
 
 Use the `BLANK_README.md` to get started.
 
