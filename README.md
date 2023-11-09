@@ -1,9 +1,4 @@
 
-
-
-<!-- PROJECT LOGO -->
-<br />
-
   <h3 align="center">GymMeet</h3>
 
   <p align="center">
