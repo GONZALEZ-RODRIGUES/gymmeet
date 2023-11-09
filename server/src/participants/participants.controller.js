@@ -14,9 +14,18 @@ module.exports = {
           res.status(500).send("Server Problem creating meet and seeding participants");
         }
     },
+    async joinMeet(req, res) {
+      let meet = req.body;
+      try {
+        const joinCreated = await participantsModel.joinMeet(meet)
+        res.status(200).send(joinCreated);
+      } 
+      catch {
+        res.status(500).send("Server Problem creating meet and seeding participants");
+      }
+  },
     // meet id, id user, name/lastname com id do meet
     async getParticipants(req, res) {
- 
           try {
             const id = parseInt(req.params.id);
             const participants = await participantsModel.getParticipants(id);

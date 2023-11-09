@@ -182,13 +182,26 @@ export default function DateCalendarServerRequest() {
     getMeets(newEventDate)
   };
 
-  // const handleJoinMeet = (meet_id) => {
-  //   const objJoin = { 
-  //     meet_id: meet_id,
-  //     meet_user: meet_id 
-  //   };
-
-  //   }
+  const handleJoinMeet = async (meet_id) => {
+    const joinData = { 
+      meet_id: meet_id,
+      user_id: userData.user, 
+    };
+    console.log(joinData);
+    const url = "http://localhost:5100/joinmeet";
+    try {
+      const response = await axios.post(url, joinData);
+      if (response.status === 200) {
+        getMeets(eventDate);
+        getSuggestionMeets();
+        setHasMeet(true);
+      } else {
+        console.log("deu ruim")
+      }
+    } catch (error) {
+      console.error("Error: " + error);
+    }
+    }
 
 
   return (
@@ -214,7 +227,7 @@ export default function DateCalendarServerRequest() {
                   <p>Time: {meet.meet_time}</p>
                 </div>
                 <button className="button-login"
-                // onClick={() => handleJoinMeet(meet.meet_id)}
+                onClick={() => handleJoinMeet(meet.meet_id)}
                 >Join!</button>
               </div>
           ))}
