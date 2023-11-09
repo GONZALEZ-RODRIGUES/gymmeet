@@ -14,7 +14,7 @@ const escapeHtml = require("escape-html");
 const participantsModel = require('./participants/participants.model');
 app.use(express.json());
 app.use(cors());
-app.use("/", express.static("../../client/dist"));
+app.use("/", express.static("../client/dist"));
 
 const store = new KnexSessionStore({
     knex,
@@ -84,5 +84,5 @@ app.listen(PORT, () => {
 });
 // serving static html for every path
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
