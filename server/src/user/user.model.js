@@ -44,10 +44,14 @@ module.exports = {
 
 
     create(user) {
-        return knex(users).insert([user]).then(() => {
-            return `User with id ${user.id}, created.`
-        });
-    },
+        return knex(users)
+          .insert([user])
+          .returning("id")
+          .then((ids) => {
+            const createdUserId = ids[0];
+            return `User with id ${createdUserId} created.`;
+          });
+      },
 
     update(id, user) {
         return knex(users)
