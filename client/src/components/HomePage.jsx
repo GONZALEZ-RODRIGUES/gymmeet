@@ -20,7 +20,7 @@ function HomePage () {
             password: passwordInput.current.value,
         };
         
-        const url = "http://localhost:5100/login";
+        const url = "https://gymmeet.onrender.com/login";
 
         try {
             const response = await axios.post(url, userData);
