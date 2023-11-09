@@ -76,7 +76,8 @@ app.get("/", isAuthenticated, function (req, res) {
 app.post("/create", usersController.create); //done returning msg with id
 app.get("/meetuser/:id", meetController.getUserMeets); // usar para pegar os dados de meet daquele user
 app.post("/createmeet", meetController.create); //done returning msg with id
-app.get("/meetparticipants/:id", participantsController.getParticipants);
+app.get("/meetparticipants/:id", participantsController.getParticipants); //done returning all participants
+app.get("/suggestionmeets/:id", meetController.getSuggestionMeets);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

@@ -15,8 +15,8 @@ module.exports = {
     },
     
     getParticipants(id) {
-        console.log(id)
-        return knex.select('meet_participants.participant_id', 'users.first_name', 'users.last_name', 'meet_participants.meet_id')
+        
+        return knex.select('meet_participants.participant_id', 'users.id', 'users.first_name', 'users.last_name', 'meet_participants.meet_id')
         .from(meet_participants)
         .join('meets', 'meet_participants.meet_id', 'meets.meet_id')
         .join('users', 'meet_participants.user_id', 'users.id')
