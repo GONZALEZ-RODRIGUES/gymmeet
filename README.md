@@ -3,8 +3,6 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-
 
   <h3 align="center">GymMeet</h3>
 
