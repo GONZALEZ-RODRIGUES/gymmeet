@@ -11,6 +11,8 @@ import { useState , useRef, useEffect } from 'react';
 import axios from 'axios';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 dayjs.extend(utc);
@@ -192,6 +194,7 @@ export default function DateCalendarServerRequest() {
     try {
       const response = await axios.post(url, joinData);
       if (response.status === 200) {
+        toast.success("You have a new meet!");
         getMeets(eventDate);
         getSuggestionMeets();
         setHasMeet(true);
@@ -346,6 +349,10 @@ export default function DateCalendarServerRequest() {
           </>
         )}
       </div>
+      <ToastContainer
+      autoClose={3000}
+      position={toast.POSITION.BOTTOM_LEFT} 
+    />
     </div>
   );
 }

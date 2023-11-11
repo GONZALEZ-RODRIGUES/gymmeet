@@ -22,8 +22,7 @@ module.exports = {
           try {
             const id = parseInt(req.params.id);
             const meets = await meetModel.getUserMeets(id);
-            const participants = await participantsModel.getParticipants(id);
-
+            const joinedMeets = await participantsModel.getParticipants(id);
             if (meets) {
               res.status(200).send(meets);
             } else {

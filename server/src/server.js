@@ -12,6 +12,7 @@ const KnexSessionStore = require("connect-session-knex")(session);
 // const db = require("../db")
 const escapeHtml = require("escape-html");
 const participantsModel = require('./participants/participants.model');
+const userController = require('./user/user.controller');
 app.use(express.json());
 app.use(cors());
 app.use("/", express.static("../client/dist"));
@@ -79,6 +80,8 @@ app.post("/createmeet", meetController.create); //done returning msg with id
 app.get("/meetparticipants/:id", participantsController.getParticipants); //done returning all participants
 app.get("/suggestionmeets/:id", meetController.getSuggestionMeets);
 app.post("/joinmeet", participantsController.joinMeet);
+app.patch("update", userController.update);
+app.delete("delete", userController.delete);
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
