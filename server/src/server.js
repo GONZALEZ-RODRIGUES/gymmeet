@@ -14,7 +14,15 @@ const escapeHtml = require("escape-html");
 const participantsModel = require('./participants/participants.model');
 const userController = require('./user/user.controller');
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'https://gymmeet.onrender.com/', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use("/", express.static("../client/dist"));
 
 const store = new KnexSessionStore({
