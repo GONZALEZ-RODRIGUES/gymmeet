@@ -41,7 +41,7 @@ const CreateAcc = () => {
       gym_attended: gymAttInput.current.value,
     };
 
-    const url = "http://localhost:5100/create";
+    const url = "https://gymmeet.onrender.com/create";
 
     try {
       const response = await axios.post(url, userData);
