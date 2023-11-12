@@ -94,6 +94,8 @@ To get this project locally follow these simple instructions.
 - [x] Create meets
 - [x] Join meets
 - [ ] Meet chat
+- [ ] link smartphone contacts
+- [ ] gym workout traning with api
 - [ ] gym localization by google maps
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
