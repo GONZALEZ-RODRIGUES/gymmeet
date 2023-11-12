@@ -88,8 +88,8 @@ app.post("/createmeet", meetController.create); //done returning msg with id
 app.get("/meetparticipants/:id", participantsController.getParticipants); //done returning all participants
 app.get("/suggestionmeets/:id", meetController.getSuggestionMeets);
 app.post("/joinmeet", participantsController.joinMeet);
-app.patch("update", userController.update);
-app.delete("delete", userController.delete);
+// app.patch("update", userController.update);
+// app.delete("delete", userController.delete);
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
