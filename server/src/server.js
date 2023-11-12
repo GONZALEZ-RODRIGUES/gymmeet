@@ -15,7 +15,7 @@ const participantsModel = require('./participants/participants.model');
 const userController = require('./user/user.controller');
 app.use(express.json());
 const corsOptions = {
-  origin: 'https://gymmeet.onrender.com/', 
+  origin: ['https://seuapp.onrender.com', 'https://gymmeet.vercel.app'], 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
